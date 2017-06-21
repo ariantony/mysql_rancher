@@ -1,0 +1,18 @@
+version: '2'
+services:
+  lb:
+    image: rancher/lb-service-haproxy:v0.6.4
+    ports:
+    - 80:80/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
+  apps:
+    privileged: true
+    image: klola/apps:v.01
+    stdin_open: true
+    entrypoint:
+    - /usr/bin/supervisord
+    volumes:
+    - /data/apps:/home/apps
+    tty: true
